@@ -15,23 +15,31 @@ import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
+    private val TAG = "MainActivity"
     private lateinit var mSensorManager: SensorManager
     private val mPaint = Paint()
     private var mCanvas: Canvas? = null
     private lateinit var mBitmap: Bitmap
     private var accelerometer: Sensor? = null
 
+    private lateinit var presenter: MainPresenter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        presenter = MainPresenter()
+        presenter.signInUser()
+
+        initializeSensors()
+    }
+
+    private fun initializeSensors() {
         mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-
-        mPaint.color = ResourcesCompat.getColor(resources, R.color.colorAccent, null)
-
     }
+
 
     private fun displayMaxHeightAndWidth() {
         val display = windowManager.defaultDisplay
@@ -51,10 +59,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
 
         canvasView.post {
+            mPaint.color = ResourcesCompat.getColor(resources, R.color.colorAccent, null)
             mBitmap = Bitmap.createBitmap(canvasView.width, canvasView.height, Bitmap.Config.ARGB_8888)
             canvasView.setImageBitmap(mBitmap)
             mCanvas = Canvas(mBitmap)
-
             displayMaxHeightAndWidth()
         }
     }
@@ -68,6 +76,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         xTv.text = "X: $x"
         yTv.text = "Y: $y"
         zTv.text = "Z: $z"
+
+        presenter.updateAccelerometerInfo(x, y, z)
 
         if (mCanvas != null) {
             mCanvas!!.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
