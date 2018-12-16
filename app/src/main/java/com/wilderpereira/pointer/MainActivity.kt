@@ -1,4 +1,4 @@
-package wilderpereira.com.pointer
+package com.wilderpereira.pointer
 
 import android.content.Context
 import android.graphics.*
@@ -8,10 +8,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v4.content.res.ResourcesCompat
-import android.util.AttributeSet
-import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.roundToInt
 

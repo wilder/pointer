@@ -1,4 +1,4 @@
-package wilderpereira.com.pointer
+package com.wilderpereira.pointer
 
 import org.junit.Test
 

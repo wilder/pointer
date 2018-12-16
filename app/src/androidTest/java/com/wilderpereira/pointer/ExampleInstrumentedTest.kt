@@ -1,4 +1,4 @@
-package wilderpereira.com.pointer
+package com.wilderpereira.pointer
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("wilderpereira.com.pointer", appContext.packageName)
+        assertEquals("com.wilderpereira.pointer", appContext.packageName)
     }
 }
