@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var mCanvas: Canvas? = null
     private lateinit var mBitmap: Bitmap
     private var accelerometer: Sensor? = null
+    private var accelerometerValues: FloatArray? = null
 
     private lateinit var presenter: MainPresenter
 
@@ -70,9 +71,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onAccuracyChanged(sensor: Sensor?, p1: Int) {}
 
     override fun onSensorChanged(sensorEvent: SensorEvent?) {
-        val x = sensorEvent!!.values[0]
-        val y = sensorEvent.values[1]
-        val z = sensorEvent.values[2]
+
+        accelerometerValues = lowPassFilter(sensorEvent!!.values, accelerometerValues)
+
+        val x = accelerometerValues!![0]
+        val y = accelerometerValues!![1]
+        val z = accelerometerValues!![2]
         xTv.text = "X: $x"
         yTv.text = "Y: $y"
         zTv.text = "Z: $z"
