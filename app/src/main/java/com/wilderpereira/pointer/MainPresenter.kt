@@ -44,5 +44,9 @@ class MainPresenter {
         userDbReference?.setValue(mapOf("x" to x, "y" to y, "z" to z))
     }
 
+    fun pauseCoordinates() {
+        // TODO: set to not showing flag on firebase
+    }
+
 
 }
