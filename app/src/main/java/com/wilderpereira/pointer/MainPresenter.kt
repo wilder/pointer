@@ -41,11 +41,11 @@ class MainPresenter {
     }
 
     fun updateAccelerometerInfo(x: Float, y: Float, z: Float) {
-        userDbReference?.setValue(mapOf("x" to x, "y" to y, "z" to z))
+        userDbReference?.setValue(mapOf("state" to 1, "x" to x, "y" to y, "z" to z))
     }
 
     fun pauseCoordinates() {
-        // TODO: set to not showing flag on firebase
+        userDbReference?.setValue(mapOf("state" to 0))
     }
 
 
