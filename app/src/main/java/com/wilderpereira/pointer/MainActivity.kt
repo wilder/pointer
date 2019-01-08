@@ -8,20 +8,19 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.support.v4.content.ContextCompat
 import android.view.MotionEvent
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private val TAG = "MainActivity"
     private lateinit var mSensorManager: SensorManager
-    private val mPaint = Paint()
-    private var mCanvas: Canvas? = null
-    private lateinit var mBitmap: Bitmap
     private var accelerometer: Sensor? = null
     private var accelerometerValues: FloatArray? = null
     private var pressing = false
+    private var drawingMode = "point"
 
     private lateinit var presenter: MainPresenter
 
@@ -34,7 +33,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         presenter.signInUser()
 
         initializeSensors()
-        handleButonClicks()
+        handleDrawingModeChanges()
+
+        handlePointButtonInteraction()
     }
 
     private fun initializeSensors() {
@@ -42,7 +43,25 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     }
 
-    private fun handleButonClicks() {
+    private fun handleDrawingModeChanges() {
+        btnFocusMode.setOnClickListener {
+            changeButtonFocusColor(it, btnPointMode)
+            drawingMode = "focus"
+        }
+
+        btnPointMode.setOnClickListener {
+            changeButtonFocusColor(it, btnFocusMode)
+            drawingMode = "point"
+        }
+    }
+
+    private fun changeButtonFocusColor(focusedView: View, unfocusedView: View) {
+        focusedView.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorPrimary)
+        unfocusedView.backgroundTintList = ContextCompat.getColorStateList(this, android.R.color.darker_gray)
+    }
+
+
+    private fun handlePointButtonInteraction() {
         btnPoint.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> pressing = true
@@ -82,7 +101,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         val y = accelerometerValues!![1]
         val z = accelerometerValues!![2]
 
-        presenter.updateAccelerometerInfo(x, y, z)
+        presenter.updateAccelerometerInfo(drawingMode, x, y, z)
     }
 
     override fun onPause() {

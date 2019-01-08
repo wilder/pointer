@@ -40,8 +40,8 @@ class MainPresenter {
         userDbReference = database.getReference(user!!.uid)
     }
 
-    fun updateAccelerometerInfo(x: Float, y: Float, z: Float) {
-        userDbReference?.setValue(mapOf("state" to 1, "x" to x, "y" to y, "z" to z))
+    fun updateAccelerometerInfo(mode: String, x: Float, y: Float, z: Float) {
+        userDbReference?.setValue(mapOf("state" to 1, "mode" to mode, "x" to x, "y" to y, "z" to z))
     }
 
     fun pauseCoordinates() {
